@@ -49,7 +49,7 @@ const bookList = [
 
 const wishlistItems = [];
 const cart = [];
-
+// console.log(cart)
 const getWishlistItems = () => {
   return bookList.filter((book) => wishlistItems.includes(book.id.toString()));
 };
@@ -92,22 +92,23 @@ const createCard = (book) => {
   div.classList.add("card");
 
   let overview = book.overview;
+  const shortOverview = overview.slice(0,60);
 
   div.innerHTML = `
   <div class="image-container">
     <img
-      src="${book.Image}"
+      src="${book.image}"
       alt=""
     />
     <div class="button-container">
       <button onclick="addToWishlist('${book.id}')" class="button"><i class="fa-solid fa-heart"></i></button>
-      <button onclick="AddToCart" class="button">Add To Cart</button>
+      <button onclick="addToCart('${book.id}')" class="button">Add To Cart</button>
     </div>
   </div>
   <div class="info-container">
     <h1>${book.name}</h1>
     <p>
-      ${overview}
+      ${shortOverview}...
     </p>
   </div>
 
@@ -119,6 +120,7 @@ const createCard = (book) => {
 showBooks(bookList);
 
 const addToCart = (id) => {
+  //  console.log(id)
   cart.push(id);
 };
 
@@ -130,20 +132,26 @@ const addToWishlist = (id) => {
 
 const displayCart = () => {
   const cart = getCartItems();
-  console.log(cart);
+  //  console.log(cart);
+
+   const cartContainer = document.getElementById("cart");
+   cartContainer.innerHTML = '';
 
   cart.forEach((book) => {
     const div = createCard(book);
-    document.getElementById("cart").appendChild(div);
+    cartContainer.appendChild(div);
   });
 };
 
 const displayWishlist = () => {
   const wishlist = getWishlistItems();
-  console.log(wishlist);
+  // console.log(wishlist);
+  const wishlistadd = document.getElementById("wishlist");
 
-  bookList.forEach((book) => {
+  wishlistadd.innerHTML = '';
+
+  wishlist.forEach((book) => {
     const div = createCard(book);
-    document.getElementById("wishlist").appendChild(div);
+    wishlistadd.appendChild(div);
   });
 };
